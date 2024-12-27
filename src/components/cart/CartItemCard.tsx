@@ -1,5 +1,5 @@
 import React from 'react';
-import { MinusCircle, PlusCircle, Trash2, Tag, Edit2 } from 'lucide-react';
+import { MinusCircle, PlusCircle, Trash2, Tag, Edit2, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { CartItem } from './CartProvider';
 import PersonalizationInput from './PersonalizationInput';
@@ -26,9 +26,17 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: CartItemCardProps) =
           />
         </div>
         <div className="flex-grow">
-          <h3 className="text-lg font-serif text-[#1A1F2C] mb-1 hover:text-[#700100] transition-colors cursor-pointer">
-            {item.name}
-          </h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-serif text-[#1A1F2C] mb-1 hover:text-[#700100] transition-colors cursor-pointer">
+              {item.name}
+            </h3>
+            {item.fromPack && (
+              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-[#700100]/10 text-[#700100]">
+                <Package size={12} />
+                Article de Pack
+              </span>
+            )}
+          </div>
           <p className="text-[#8E9196] text-sm mb-3">Réf: {item.id.toString().padStart(6, '0')}</p>
           
           {(item.size || item.color) && (

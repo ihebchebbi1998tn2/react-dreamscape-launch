@@ -11,6 +11,7 @@ export interface CartItem {
   size?: string;
   color?: string;
   personalization?: string;
+  fromPack?: boolean;
 }
 
 interface CartContextType {
