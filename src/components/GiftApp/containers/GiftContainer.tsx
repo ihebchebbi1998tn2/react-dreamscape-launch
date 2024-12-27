@@ -70,8 +70,9 @@ const GiftContainer = ({
                     <div className="text-sm font-medium text-gray-900 truncate">
                       {item.name}
                     </div>
-                    <div className="text-sm text-[#6D0201]">
-                      {item.price} TND
+                    <div className="text-xs text-gray-600 mt-1">
+                      {item.size && <span className="mr-2">Taille: {item.size}</span>}
+                      {item.color && <span>Couleur: {item.color}</span>}
                     </div>
                   </div>
                 </div>

@@ -104,7 +104,8 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
             <div className="space-y-4">
               <div>
                 <h2 className="text-xl font-bold text-gray-900 font-['WomanFontBold']">{product.name}</h2>
-                <div className="mt-2 flex items-center justify-between">
+                <p className="text-gray-600 mt-2">{product.description}</p>
+                <div className="mt-4 flex items-center justify-between">
                   <span className="text-2xl font-bold text-[#700100]">{product.price} TND</span>
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
@@ -117,19 +118,21 @@ const ProductDetailModal = ({ isOpen, onClose, product }: ProductDetailModalProp
                   </div>
                 </div>
               </div>
-{/* 
-              <ColorSelector
-                selectedColor={product.color}
-                colors={{
-                  "Orange": "#DC6B48",
-                  "White": "#FFFFFF",
-                  "Gray": "#E5E5E5",
-                  "Black": "#1A1A1A",
-                  "Brown": "#8B4513",
-                  "Sage": "#9CA88C"
-                }}
-                onColorSelect={(color) => console.log('Selected color:', color)}
-              /> */}
+
+              <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
+                <div className="flex items-start gap-2">
+                  <Info className="h-4 w-4 text-[#700100] mt-1" />
+                  <div>
+                    <h4 className="font-medium text-gray-900">Détails du produit</h4>
+                    <ul className="mt-2 space-y-2 text-gray-600">
+                      <li>• Matière: {product.material}</li>
+                      <li>• Couleur: {product.color}</li>
+                      <li>• État: {product.status}</li>
+                      <li>• Référence: {product.id.toString().padStart(6, '0')}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
               <SizeSelector
                 selectedSize={selectedSize}
