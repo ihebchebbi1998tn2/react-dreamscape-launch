@@ -1,38 +1,142 @@
-import { Button } from "@/components/ui/button";
+import React, { useState, useEffect, Suspense, useTransition } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Skeleton } from "@/components/ui/skeleton";
+
+const TopNavbar = React.lazy(() => import('../components/TopNavbar'));
+const BrandNavbar = React.lazy(() => import('../components/BrandNavbar'));
+const MainNavbar = React.lazy(() => import('../components/MainNavbar'));
+const Hero = React.lazy(() => import('../components/Hero'));
+const Products = React.lazy(() => import('../components/Products'));
+const Men = React.lazy(() => import('../components/Men'));
+const BrandIntro = React.lazy(() => import('../components/BrandIntro'));
+const NewCollection = React.lazy(() => import('../components/NewCollection'));
+const BrandLocation = React.lazy(() => import('../components/BrandLocation'));
+const Footer = React.lazy(() => import('../components/Footer'));
+const LoadingScreen = React.lazy(() => import('../components/LoadingScreen'));
+const GiftCollection = React.lazy(() => import('../components/GiftCollection'));
+const WhatsAppPopup = React.lazy(() => import('../components/WhatsAppPopup'));
+const SalesPopup = React.lazy(() => import('../components/SalesPopup'));
+const NewsletterPopup = React.lazy(() => import('../components/NewsletterPopup'));
+
+const LoadingFallback = () => (
+  <div className="w-full h-24 animate-pulse">
+    <Skeleton className="w-full h-full" />
+  </div>
+);
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(() => {
+    // Check if this is the first visit
+    const hasVisited = sessionStorage.getItem('hasVisitedIndex');
+    return !hasVisited;
+  });
+  const [isInView, setIsInView] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    // Mark that user has visited the index page
+    sessionStorage.setItem('hasVisitedIndex', 'true');
+    
+    const handleScroll = () => {
+      startTransition(() => {
+        if (window.scrollY > 100) {
+          setIsInView(true);
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="relative min-h-screen">
-      <div className="absolute inset-0 hero-gradient" />
-      
-      <div className="relative container mx-auto px-4 py-20">
-        <div className="max-w-3xl mx-auto text-center animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-            Welcome to Your New App
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-gray-600 mb-8">
-            Build something amazing with React and modern web technologies.
-          </p>
-          
-          <div className="flex gap-4 justify-center">
-            <Button
-              className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg hover-lift"
-              onClick={() => console.log("Get Started clicked")}
-            >
-              Get Started
-            </Button>
-            
-            <Button
-              variant="outline"
-              className="border-2 border-primary text-primary hover:bg-primary/5 px-8 py-6 text-lg hover-lift"
-              onClick={() => console.log("Learn More clicked")}
-            >
-              Learn More
-            </Button>
-          </div>
-        </div>
-      </div>
+    <div className="min-h-screen relative">
+      <AnimatePresence mode="wait">
+        {isLoading ? (
+          <Suspense fallback={<LoadingFallback />}>
+            <LoadingScreen onLoadingComplete={() => {
+              startTransition(() => {
+                setIsLoading(false);
+              });
+            }} />
+          </Suspense>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 1.2,
+              ease: [0.43, 0.13, 0.23, 0.96],
+              staggerChildren: 0.1
+            }}
+          >
+            <Suspense fallback={<LoadingFallback />}>
+              <TopNavbar />
+              <BrandNavbar />
+              <div className="hidden lg:block">
+                <MainNavbar />
+              </div>
+              
+              <Hero />
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 1.8 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <Products />
+                </Suspense>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 2 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <NewCollection />
+                </Suspense>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 2.6 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <GiftCollection />
+                </Suspense>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 2.8 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <BrandLocation />
+                </Suspense>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isInView ? 1 : 0 }}
+                transition={{ duration: 3 }}
+              >
+                <Suspense fallback={<LoadingFallback />}>
+                  <Footer />
+                </Suspense>
+              </motion.div>
+
+              <Suspense fallback={null}>
+                <WhatsAppPopup />
+                <NewsletterPopup />
+              </Suspense>
+            </Suspense>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
