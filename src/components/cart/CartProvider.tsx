@@ -11,6 +11,7 @@ export interface CartItem {
   size?: string;
   color?: string;
   personalization?: string;
+  packInfo?: string; // New field for pack information
 }
 
 interface CartContextType {

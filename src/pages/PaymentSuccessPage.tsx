@@ -29,9 +29,13 @@ const PaymentSuccessPage = () => {
           const userDetails = JSON.parse(sessionStorage.getItem('userDetails') || '{}');
 
           // Format items with personalization
+
+          // Format items with personalization and pack info
           const formattedItems = pendingOrder.cartItems.map((item: any) => ({
             id: item.id,
-            name: item.personalization 
+            name: item.packInfo 
+              ? `${item.name} (Personnalisation = ${item.personalization || '-'}) (${item.packInfo})`
+              : item.personalization
               ? `${item.name} (Personnalisation = ${item.personalization})`
               : item.name,
             price: item.price,
@@ -39,7 +43,8 @@ const PaymentSuccessPage = () => {
             image: item.image,
             size: item.size || '-',
             color: item.color || '-',
-            personalization: item.personalization || '-'
+            personalization: item.personalization || '-',
+            packInfo: item.packInfo || '-'
           }));
 
           // Prepare order submission data

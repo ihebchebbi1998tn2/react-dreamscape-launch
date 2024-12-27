@@ -1,5 +1,5 @@
 import React from 'react';
-import { MinusCircle, PlusCircle, Trash2, Tag, Edit2 } from 'lucide-react';
+import { MinusCircle, PlusCircle, Trash2, Tag, Edit2, Package } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { CartItem } from './CartProvider';
 import PersonalizationInput from './PersonalizationInput';
@@ -15,7 +15,7 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: CartItemCardProps) =
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md border border-gray-100/50 backdrop-blur-sm"
+      className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md border border-gray-100"
     >
       <div className="flex items-center gap-6">
         <div className="w-24 h-24 bg-[#F1F0FB] rounded-lg overflow-hidden group">
@@ -31,7 +31,7 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: CartItemCardProps) =
           </h3>
           <p className="text-[#8E9196] text-sm mb-3">Réf: {item.id.toString().padStart(6, '0')}</p>
           
-          {(item.size || item.color) && (
+          {(item.size || item.color || item.packInfo) && (
             <div className="flex flex-wrap gap-2 mb-3">
               {item.size && (
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -41,6 +41,12 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: CartItemCardProps) =
               {item.color && (
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                   Couleur: {item.color}
+                </span>
+              )}
+              {item.packInfo && (
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#700100] text-white">
+                  <Package className="w-3 h-3 mr-1" />
+                  {item.packInfo}
                 </span>
               )}
             </div>
