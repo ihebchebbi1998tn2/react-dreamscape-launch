@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CartItem } from '@/components/cart/CartProvider';
 import { getPersonalizations } from '@/utils/personalizationStorage';
-import { Tag, Package2, Ruler, Package } from 'lucide-react';
+import { Tag, Package2, Ruler } from 'lucide-react';
 
 interface OrderItemsProps {
   items: CartItem[];
@@ -52,12 +52,6 @@ const OrderItems = ({ items }: OrderItemsProps) => {
                     <div className="text-[#471818] flex items-center gap-1 text-sm bg-gray-50 px-3 py-1 rounded-full">
                       <Package2 className="w-4 h-4 text-[#700100]" />
                       <span>Couleur: {item.color}</span>
-                    </div>
-                  )}
-                  {item.packInfo && (
-                    <div className="text-white flex items-center gap-1 text-sm bg-[#700100] px-3 py-1 rounded-full">
-                      <Package className="w-4 h-4" />
-                      <span>{item.packInfo}</span>
                     </div>
                   )}
                 </div>
